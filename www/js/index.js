@@ -63,6 +63,7 @@ var app = {
                 if ( e.regid.length > 0 )
                 {
                     console.log("Regid " + e.regid);
+                    //$("#app-status-ul").append('<li>success:'+ e.regid +'</li>');
                     alert('registration id = '+e.regid);
                 }
             break;
