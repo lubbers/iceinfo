@@ -31,25 +31,25 @@ var app = {
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
+    // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        var pushNotification = window.plugins.pushNotification;
+        pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"709824733384","ecb":"app.onNotificationGCM"});
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        navigator.notification.beep(2);
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
-        
-        var pushNotification = window.plugins.pushNotification;
-        pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"709824733384","ecb":"app.onNotificationGCM"});
-        
+
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
     },
+    // result contains any message sent from the plugin call
     successHandler: function(result) {
         alert('Callback Success! Result = '+result)
     },
@@ -63,24 +63,23 @@ var app = {
                 if ( e.regid.length > 0 )
                 {
                     console.log("Regid " + e.regid);
-                    //$("#app-status-ul").append('<li>success:'+ e.regid +'</li>');
                     alert('registration id = '+e.regid);
                 }
-            break;
- 
+                break;
+
             case 'message':
-              // this is the actual push notification. its format depends on the data model from the push server
-              alert('message = '+e.message+' msgcnt = '+e.msgcnt);
-            break;
- 
+                // this is the actual push notification. its format depends on the data model from the push server
+                alert('message = '+e.message+' msgcnt = '+e.msgcnt);
+                break;
+
             case 'error':
-              alert('GCM error = '+e.msg);
-            break;
- 
+                alert('GCM error = '+e.msg);
+                break;
+
             default:
-              alert('An unknown GCM event has occurred');
-              break;
+                alert('An unknown GCM event has occurred');
+                break;
         }
     }
-    
+
 };
